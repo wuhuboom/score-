@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.score.system.mapper.ScoreSportMapper">
+    
+    <resultMap type="ScoreSport" id="ScoreSportResult">
+        <result property="id"    column="id"    />
+        <result property="dataType"    column="data_type"    />
+        <result property="sportId"    column="sport_id"    />
+        <result property="time"    column="time"    />
+        <result property="timeStatus"    column="time_status"    />
+        <result property="league"    column="league"    />
+        <result property="home"    column="home"    />
+        <result property="oHome"    column="o_home"    />
+        <result property="away"    column="away"    />
+        <result property="ss"    column="ss"    />
+        <result property="scores"    column="scores"    />
+        <result property="stats"    column="stats"    />
+        <result property="extra"    column="extra"    />
+        <result property="hasLineup"    column="has_lineup"    />
+        <result property="inplayCreatedAt"    column="inplay_created_at"    />
+        <result property="inplayUpdatedAt"    column="inplay_updated_at"    />
+        <result property="confirmedAt"    column="confirmed_at"    />
+        <result property="bet365Id"    column="bet365_id"    />
+        <result property="events"    column="events"    />
+    </resultMap>
+
+    <sql id="selectScoreSportVo">
+        select id, data_type, sport_id, time, time_status, league, home, o_home, away, ss, scores, stats, extra, has_lineup, inplay_created_at, inplay_updated_at, confirmed_at, bet365_id, events from score_sport
+    </sql>
+
+    <select id="selectScoreSportList" parameterType="ScoreSport" resultMap="ScoreSportResult">
+        <include refid="selectScoreSportVo"/>
+        <where>  
+            <if test="dataType != null  and dataType != ''"> and data_type = #{dataType}</if>
+            <if test="sportId != null  and sportId != ''"> and sport_id = #{sportId}</if>
+            <if test="time != null "> and time = #{time}</if>
+            <if test="timeStatus != null  and timeStatus != ''"> and time_status = #{timeStatus}</if>
+            <if test="league != null  and league != ''"> and league = #{league}</if>
+            <if test="home != null  and home != ''"> and home = #{home}</if>
+            <if test="oHome != null  and oHome != ''"> and o_home = #{oHome}</if>
+            <if test="away != null  and away != ''"> and away = #{away}</if>
+            <if test="ss != null  and ss != ''"> and ss = #{ss}</if>
+            <if test="scores != null  and scores != ''"> and scores = #{scores}</if>
+            <if test="stats != null  and stats != ''"> and stats = #{stats}</if>
+            <if test="extra != null  and extra != ''"> and extra = #{extra}</if>
+            <if test="hasLineup != null "> and has_lineup = #{hasLineup}</if>
+            <if test="inplayCreatedAt != null "> and inplay_created_at = #{inplayCreatedAt}</if>
+            <if test="inplayUpdatedAt != null "> and inplay_updated_at = #{inplayUpdatedAt}</if>
+            <if test="confirmedAt != null "> and confirmed_at = #{confirmedAt}</if>
+            <if test="bet365Id != null  and bet365Id != ''"> and bet365_id = #{bet365Id}</if>
+            <if test="events != null  and events != ''"> and events = #{events}</if>
+        </where>
+    </select>
+    
+    <select id="selectScoreSportById" parameterType="Long" resultMap="ScoreSportResult">
+        <include refid="selectScoreSportVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectScoreSportBySportId" parameterType="String" resultMap="ScoreSportResult">
+        <include refid="selectScoreSportVo"/>
+        where sport_id = #{sportId}
+    </select>
+
+    <select id="selectScoreSportByTimeStatus" parameterType="String" resultMap="ScoreSportResult">
+        <include refid="selectScoreSportVo"/>
+        where time_status = #{timeStatus}
+    </select>
+        
+    <insert id="insertScoreSport" parameterType="ScoreSport" useGeneratedKeys="true" keyProperty="id">
+        insert into score_sport
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="dataType != null">data_type,</if>
+            <if test="sportId != null">sport_id,</if>
+            <if test="time != null">time,</if>
+            <if test="timeStatus != null">time_status,</if>
+            <if test="league != null">league,</if>
+            <if test="home != null">home,</if>
+            <if test="oHome != null">o_home,</if>
+            <if test="away != null">away,</if>
+            <if test="ss != null">ss,</if>
+            <if test="scores != null">scores,</if>
+            <if test="stats != null">stats,</if>
+            <if test="extra != null">extra,</if>
+            <if test="hasLineup != null">has_lineup,</if>
+            <if test="inplayCreatedAt != null">inplay_created_at,</if>
+            <if test="inplayUpdatedAt != null">inplay_updated_at,</if>
+            <if test="confirmedAt != null">confirmed_at,</if>
+            <if test="bet365Id != null">bet365_id,</if>
+            <if test="events != null">events,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="dataType != null">#{dataType},</if>
+            <if test="sportId != null">#{sportId},</if>
+            <if test="time != null">#{time},</if>
+            <if test="timeStatus != null">#{timeStatus},</if>
+            <if test="league != null">#{league},</if>
+            <if test="home != null">#{home},</if>
+            <if test="oHome != null">#{oHome},</if>
+            <if test="away != null">#{away},</if>
+            <if test="ss != null">#{ss},</if>
+            <if test="scores != null">#{scores},</if>
+            <if test="stats != null">#{stats},</if>
+            <if test="extra != null">#{extra},</if>
+            <if test="hasLineup != null">#{hasLineup},</if>
+            <if test="inplayCreatedAt != null">#{inplayCreatedAt},</if>
+            <if test="inplayUpdatedAt != null">#{inplayUpdatedAt},</if>
+            <if test="confirmedAt != null">#{confirmedAt},</if>
+            <if test="bet365Id != null">#{bet365Id},</if>
+            <if test="events != null">#{events},</if>
+         </trim>
+    </insert>
+
+    <update id="updateScoreSport" parameterType="ScoreSport">
+        update score_sport
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="dataType != null">data_type = #{dataType},</if>
+            <if test="sportId != null">sport_id = #{sportId},</if>
+            <if test="time != null">time = #{time},</if>
+            <if test="timeStatus != null">time_status = #{timeStatus},</if>
+            <if test="league != null">league = #{league},</if>
+            <if test="home != null">home = #{home},</if>
+            <if test="oHome != null">o_home = #{oHome},</if>
+            <if test="away != null">away = #{away},</if>
+            <if test="ss != null">ss = #{ss},</if>
+            <if test="scores != null">scores = #{scores},</if>
+            <if test="stats != null">stats = #{stats},</if>
+            <if test="extra != null">extra = #{extra},</if>
+            <if test="hasLineup != null">has_lineup = #{hasLineup},</if>
+            <if test="inplayCreatedAt != null">inplay_created_at = #{inplayCreatedAt},</if>
+            <if test="inplayUpdatedAt != null">inplay_updated_at = #{inplayUpdatedAt},</if>
+            <if test="confirmedAt != null">confirmed_at = #{confirmedAt},</if>
+            <if test="bet365Id != null">bet365_id = #{bet365Id},</if>
+            <if test="events != null">events = #{events},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteScoreSportById" parameterType="Long">
+        delete from score_sport where id = #{id}
+    </delete>
+
+    <delete id="deleteScoreSportByTimeStatus" parameterType="String">
+        delete from score_sport  where time_status = #{timeStatus}
+    </delete>
+
+    <delete id="deleteScoreSportBySportId" parameterType="String">
+        delete from score_sport    where sport_id = #{sportId}
+    </delete>
+
+    <delete id="deleteScoreSportByIds" parameterType="String">
+        delete from score_sport where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
