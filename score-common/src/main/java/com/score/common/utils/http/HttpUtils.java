@@ -69,7 +69,6 @@ public class HttpUtils
         try
         {
             String urlNameString = StringUtils.isNotBlank(param) ? url + "?" + param : url;
-            log.info("sendGet - {}", urlNameString);
             URL realUrl = new URL(urlNameString);
             URLConnection connection = realUrl.openConnection();
             connection.setRequestProperty("accept", "*/*");
@@ -82,7 +81,6 @@ public class HttpUtils
             {
                 result.append(line);
             }
-            log.info("recv - {}", result);
         }
         catch (ConnectException e)
         {

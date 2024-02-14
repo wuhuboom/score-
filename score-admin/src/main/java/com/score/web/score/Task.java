@@ -75,7 +75,6 @@ public class Task {
             String s = HttpUtils.sendGet(url);
             JSONObject jsonObject = JSONObject.parseObject(s);
             String string = jsonObject.getString("results");
-            String string1 = jsonObject.getString("pager");
             List<ScoreVo> scoreVos = JSONArray.parseArray(string, ScoreVo.class);
             all.addAll(scoreVos);
             if (scoreVos.size()<per_page){
