@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.score.system.mapper.ScoreCountryMapper">
+    
+    <resultMap type="ScoreCountry" id="ScoreCountryResult">
+        <result property="id"    column="id"    />
+        <result property="cc"    column="cc"    />
+        <result property="name"    column="name"    />
+        <result property="img"    column="img"    />
+        <result property="leagueNum"    column="league_num"    />
+    </resultMap>
+
+    <sql id="selectScoreCountryVo">
+        select id, cc, name, img, league_num from score_country
+    </sql>
+
+    <select id="selectScoreCountryList" parameterType="ScoreCountry" resultMap="ScoreCountryResult">
+        <include refid="selectScoreCountryVo"/>
+        <where>  
+            <if test="cc != null  and cc != ''"> and cc = #{cc}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="img != null  and img != ''"> and img = #{img}</if>
+            <if test="leagueNum != null "> and league_num = #{leagueNum}</if>
+        </where>
+    </select>
+
+    <select id="selectScoreCyList">
+        <include refid="selectScoreCountryVo"/>
+            where league_num >0
+    </select>
+    
+    <select id="selectScoreCountryById" parameterType="Long" resultMap="ScoreCountryResult">
+        <include refid="selectScoreCountryVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertScoreCountry" parameterType="ScoreCountry" useGeneratedKeys="true" keyProperty="id">
+        insert into score_country
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cc != null">cc,</if>
+            <if test="name != null">name,</if>
+            <if test="img != null">img,</if>
+            <if test="leagueNum != null">league_num,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cc != null">#{cc},</if>
+            <if test="name != null">#{name},</if>
+            <if test="img != null">#{img},</if>
+            <if test="leagueNum != null">#{leagueNum},</if>
+         </trim>
+    </insert>
+
+    <insert id="batchCountry">
+        insert into score_country(cc, name,img,league_num) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.cc},#{item.name},#{item.img},#{item.leagueNum})
+        </foreach>
+    </insert>
+
+    <update id="updateScoreCountry" parameterType="ScoreCountry">
+        update score_country
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cc != null">cc = #{cc},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="img != null">img = #{img},</if>
+            <if test="leagueNum != null">league_num = #{leagueNum},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteScoreCountryById" parameterType="Long">
+        delete from score_country where id = #{id}
+    </delete>
+
+    <delete id="deleteScoreCountryByIds" parameterType="String">
+        delete from score_country where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
